@@ -1,19 +1,44 @@
-from rest_framework import status
-
 from .models import Musician, Album, Song, SongAlbumRelationship
 from .serializers import (MusicianSerializer, AlbumSerializer, SongSerializer,
                           SongAlbumRelationshipSerializer)
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema, OpenApiExample
 
 
 class MusicianViewSet(ModelViewSet):
     """
-    Обработчик для модели Musicia.
+    Представление для работы с моделью Musicia.
     """
     queryset = Musician.objects.all()
     serializer_class = MusicianSerializer
-
+    @extend_schema(
+        examples=[
+            OpenApiExample(
+                "Пример",
+                value={
+                    "musician": {
+                        "id": 1,
+                        "name": "string"
+                    },
+                    "albums": [
+                        {
+                            "id": 1,
+                            "title": "string",
+                            "year": 0000,
+                            "musician": 1
+                        },
+                    ],
+                    "songs": [
+                        {
+                            "id": 1,
+                            "title": "string"
+                        },
+                    ]
+                },
+            )
+        ]
+    )
     def retrieve(self, request, *args, **kwargs):
         """
         При запросе профиля музыканта, выдаёт список альбомов и все песни для
@@ -31,9 +56,33 @@ class MusicianViewSet(ModelViewSet):
 
 
 class AlbumViewSet(ModelViewSet):
+    """
+    Представление для работы с моделью Album.
+    """
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
 
+    @extend_schema(
+        examples=[
+            OpenApiExample(
+                "Пример",
+                value={
+                    "albums": {
+                        "id": 1,
+                        "title": "string",
+                        "year": 0000,
+                        "musician": 1
+                    },
+                    "songs": [
+                        {
+                            "id": 0,
+                            "title": "string"
+                        },
+                    ]
+                },
+            )
+        ]
+    )
     def retrieve(self, request, *args, **kwargs):
         """
         При запросе деталей альбома, выдаёт список песен для
@@ -48,26 +97,37 @@ class AlbumViewSet(ModelViewSet):
 
 
 class SongViewSet(ModelViewSet):
+    """
+    Представление для работы с моделью Song.
+    """
     queryset = Song.objects.all()
     serializer_class = SongSerializer
 
-    # def create(self, request, *args, **kwargs):
-    #     albums = request.data.pop('albums', [])
-    #     serializer = self.get_serializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_create(serializer)
-    #
-    #     instance = serializer.instance
-    #     instance.albums.set(albums)
-    #
-    #     headers = self.get_success_headers(serializer.data)
-    #     return Response(serializer.data, status=status.HTTP_201_CREATED,
-    #                     headers=headers)
-
+    @extend_schema(
+        examples=[
+            OpenApiExample(
+                "Пример",
+                value={
+                    "song": {
+                        "id": 1,
+                        "title": "string"
+                    },
+                    "relations": [
+                        {
+                            "id": 1,
+                            "track_number": 1,
+                            "song": 1,
+                            "album": 1
+                        },
+                    ]
+                }
+            )
+        ]
+    )
     def retrieve(self, request, *args, **kwargs):
         """
         При запросе деталей песни, выдаёт список альбомов и номера в
-         этих альбомах(только для чтения).
+         этих альбомах.
         """
         relations = SongAlbumRelationship.objects.filter(song=kwargs["pk"])
         song = Song.objects.get(pk=kwargs["pk"])
@@ -75,4 +135,4 @@ class SongViewSet(ModelViewSet):
                                                                many=True)
         serializer_song = SongSerializer(song)
         return Response({"song": serializer_song.data,
-                        "relations": serializer_relations.data})
+                         "relations": serializer_relations.data})

@@ -1,0 +1,635 @@
+openapi: 3.0.3
+info:
+  title: Musicians Project API
+  version: 1.0.0
+  description: Приложение - каталог исполнителей и их альбомов с песнями.
+paths:
+  /albums/:
+    get:
+      operationId: albums_list
+      description: Представление для работы с моделью Album.
+      tags:
+      - albums
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Album'
+          description: ''
+    post:
+      operationId: albums_create
+      description: Представление для работы с моделью Album.
+      tags:
+      - albums
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Album'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Album'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Album'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'
+          description: ''
+  /albums/{id}/:
+    get:
+      operationId: albums_retrieve
+      description: |-
+        При запросе деталей альбома, выдаёт список песен для
+        данного альбома(только для чтения).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this album.
+        required: true
+      tags:
+      - albums
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'
+              examples:
+                Пример:
+                  value:
+                    albums:
+                      id: 1
+                      title: string
+                      year: 0
+                      musician: 1
+                    songs:
+                    - id: 0
+                      title: string
+          description: ''
+    put:
+      operationId: albums_update
+      description: Представление для работы с моделью Album.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this album.
+        required: true
+      tags:
+      - albums
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Album'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Album'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Album'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'
+          description: ''
+    patch:
+      operationId: albums_partial_update
+      description: Представление для работы с моделью Album.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this album.
+        required: true
+      tags:
+      - albums
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAlbum'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAlbum'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAlbum'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'
+          description: ''
+    delete:
+      operationId: albums_destroy
+      description: Представление для работы с моделью Album.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this album.
+        required: true
+      tags:
+      - albums
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /musicians/:
+    get:
+      operationId: musicians_list
+      description: Представление для работы с моделью Musicia.
+      tags:
+      - musicians
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Musician'
+          description: ''
+    post:
+      operationId: musicians_create
+      description: Представление для работы с моделью Musicia.
+      tags:
+      - musicians
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Musician'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Musician'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Musician'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Musician'
+          description: ''
+  /musicians/{id}/:
+    get:
+      operationId: musicians_retrieve
+      description: |-
+        При запросе профиля музыканта, выдаёт список альбомов и все песни для
+        данного музыканта(только для чтения).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this musician.
+        required: true
+      tags:
+      - musicians
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Musician'
+              examples:
+                Пример:
+                  value:
+                    musician:
+                      id: 1
+                      name: string
+                    albums:
+                    - id: 1
+                      title: string
+                      year: 0
+                      musician: 1
+                    songs:
+                    - id: 1
+                      title: string
+          description: ''
+    put:
+      operationId: musicians_update
+      description: Представление для работы с моделью Musicia.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this musician.
+        required: true
+      tags:
+      - musicians
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Musician'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Musician'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Musician'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Musician'
+          description: ''
+    patch:
+      operationId: musicians_partial_update
+      description: Представление для работы с моделью Musicia.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this musician.
+        required: true
+      tags:
+      - musicians
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMusician'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMusician'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMusician'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Musician'
+          description: ''
+    delete:
+      operationId: musicians_destroy
+      description: Представление для работы с моделью Musicia.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this musician.
+        required: true
+      tags:
+      - musicians
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /songs/:
+    get:
+      operationId: songs_list
+      description: Представление для работы с моделью Song.
+      tags:
+      - songs
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Song'
+          description: ''
+    post:
+      operationId: songs_create
+      description: Представление для работы с моделью Song.
+      tags:
+      - songs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Song'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Song'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Song'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'
+          description: ''
+  /songs/{id}/:
+    get:
+      operationId: songs_retrieve
+      description: |-
+        При запросе деталей песни, выдаёт список альбомов и номера в
+         этих альбомах.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this song.
+        required: true
+      tags:
+      - songs
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'
+              examples:
+                Пример:
+                  value:
+                    song:
+                      id: 1
+                      title: string
+                    relations:
+                    - id: 1
+                      track_number: 1
+                      song: 1
+                      album: 1
+          description: ''
+    put:
+      operationId: songs_update
+      description: Представление для работы с моделью Song.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this song.
+        required: true
+      tags:
+      - songs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Song'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Song'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Song'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'
+          description: ''
+    patch:
+      operationId: songs_partial_update
+      description: Представление для работы с моделью Song.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this song.
+        required: true
+      tags:
+      - songs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSong'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSong'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSong'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'
+          description: ''
+    delete:
+      operationId: songs_destroy
+      description: Представление для работы с моделью Song.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this song.
+        required: true
+      tags:
+      - songs
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Album:
+      type: object
+      description: Сериализатор для работы с моделью Album.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 255
+        year:
+          type: integer
+          title: Год альбома
+        musician:
+          type: integer
+          title: Музыкант
+      required:
+      - id
+      - musician
+      - title
+      - year
+    Musician:
+      type: object
+      description: Сериализатор для работы с моделью Musician.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Музыкант
+          maxLength: 255
+      required:
+      - id
+      - name
+    PatchedAlbum:
+      type: object
+      description: Сериализатор для работы с моделью Album.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 255
+        year:
+          type: integer
+          title: Год альбома
+        musician:
+          type: integer
+          title: Музыкант
+    PatchedMusician:
+      type: object
+      description: Сериализатор для работы с моделью Musician.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Музыкант
+          maxLength: 255
+    PatchedSong:
+      type: object
+      description: Сериализатор для работы с моделью Song.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        albums:
+          type: array
+          items:
+            type: integer
+          writeOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 255
+    Song:
+      type: object
+      description: Сериализатор для работы с моделью Song.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        albums:
+          type: array
+          items:
+            type: integer
+          writeOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 255
+      required:
+      - albums
+      - id
+      - title
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
