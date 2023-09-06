@@ -1,0 +1,8 @@
+venv
+db.sqlite3
+.gitignore
+.dockerignore
+__pycache__
+aim.txt
+/musicians/migrations/**
+!/musicians/migrations/__init__.py
