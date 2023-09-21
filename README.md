@@ -1,10 +1,11 @@
 # Используемый стек технологий.
-- Python
-- Django
-- Django Rest Framework
-- Swagger
-- Docker
-- Docker compose
+- ![Python](https://img.shields.io/badge/-Python-black?style=flat-square&logo=Python)
+- ![Django](https://img.shields.io/badge/-Django-0aad48?style=flat-square&logo=Django)
+- ![Django Rest Framework](https://img.shields.io/badge/DRF-red?style=flat-square&logo=Django)
+- ![Static Badge](https://img.shields.io/badge/Swagger-lightgreen)
+- ![Docker](https://img.shields.io/badge/-Docker-46a2f1?style=flat-square&logo=docker&logoColor=white)
+- ![Static Badge](https://img.shields.io/badge/Docker-compose-blue)
+
 
 # Инструкция для запуска.
 
