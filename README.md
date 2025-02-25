@@ -6,6 +6,8 @@
 - ![Docker](https://img.shields.io/badge/-Docker-46a2f1?style=flat-square&logo=docker&logoColor=white)
 - ![Static Badge](https://img.shields.io/badge/Docker-compose-blue)
 
+# Описание.
+Сайт для создания базы музыкантов/исполнителей и их альбомов и песен.
 
 # Инструкция для запуска.
 
